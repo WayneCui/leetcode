@@ -40,8 +40,9 @@ func twoSum(nums []int, target int) []int {
 	for i := 0; i < length; i++ {
 		first := nums[i]
 		second := target - first
+		_, ok := dict[second]
 
-		if dict[second] != 0 && i != dict[second] {
+		if ok && i != dict[second] {
 			return []int{i, dict[second]}
 		}
 	}
