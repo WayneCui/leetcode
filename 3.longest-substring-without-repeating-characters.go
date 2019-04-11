@@ -70,3 +70,31 @@ func lengthOfLongestSubstring(s string) int {
 	return longest
 }
 
+// another method with sliding window
+func lengthOfLongestSubstring2(s string) int {
+	n := len(s)
+
+	if n == 0 || n == 1 {
+		return n
+	}
+	
+	longest := 0
+	start := 0
+	memo := make(map[byte]int)
+	for i := 0; i < n; i++ {
+		idx, ok := memo[s[i]]
+		if ok && start < idx + 1 {
+			start = idx + 1
+		}
+
+		if longest < i - start + 1 {
+			longest = i - start + 1
+		}
+
+		memo[s[i]] = i
+	}
+
+	
+	return longest
+}
+
