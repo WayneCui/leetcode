@@ -43,40 +43,51 @@
 		return -1
 	}
 
+	ok := false
 	low := 0
-	high := n - 1
-	mid := 0
 
-	for low < high {
-		if nums[low] < nums[high] {
-			low = searchInSorted(nums, low, high, target)
-			break
-		} else {
-			mid = (low + high) / 2
-			if nums[mid] >= nums[0] { //pivot is in the right part
-				if target <= nums[mid] && target >= nums[0] { //target is in the right part, if there is
-					high = mid
-				} else {
-					low = mid + 1
-				}
-			} else { //pivot is in the left part
-				if target > nums[mid] && target <= nums[n - 1] {	//
-					low = mid + 1
-				} else {
-					high = mid
-				}
-			}
-		}
+	pivotIdx, pivot := findMin(nums)
+	if pivotIdx == 0 {
+		ok, low = binarySearch(nums, 0, n - 1, target)
+	} else if target >= pivot && target <= nums[n - 1] {
+		ok, low = binarySearch(nums, pivotIdx, n - 1, target)
+	} else {
+		ok, low = binarySearch(nums, 0, pivotIdx - 1, target)
 	}
 
-	if nums[low] == target {
+	if ok {
 		return low
 	} else {
 		return -1
 	}
 }
 
-func searchInSorted(nums []int, low int, high int, target int) int{
+func findMin(nums []int) (int, int) {
+	n := len(nums)
+	if nums[0] < nums[n - 1] {
+		return 0, nums[0]
+	}
+
+	low := 0
+	high := n - 1
+
+	for low < high {
+		if nums[low] < nums[high] {
+			break
+		} else {
+			mid := (low + high) / 2
+			if nums[mid] >= nums[0] {
+				low = mid + 1
+			} else {
+				high = mid
+			}
+		}
+	}
+
+	return low, nums[low]
+}
+
+func binarySearch(nums []int, low int, high int, target int)(bool, int) {
 	for low < high {
 		mid := (low + high) / 2
 		if target > nums[mid] {
@@ -86,6 +97,6 @@ func searchInSorted(nums []int, low int, high int, target int) int{
 		}
 	}
 
-	return low
+	return target == nums[low], low
 }
 
