@@ -43,6 +43,7 @@
  * 
  * 
  */
+
 func myPow(x float64, n int) float64 {
 	switch {
 		case x == 1.0:
@@ -64,7 +65,8 @@ func myPow(x float64, n int) float64 {
 	}
 }
 
-func positivePow(x float64, n int) float64 {
+//4464ms
+func positivePow2(x float64, n int) float64 {
 	product := 1.0
 
 	for i := 0; i < n; i++ {
@@ -73,4 +75,23 @@ func positivePow(x float64, n int) float64 {
 
 	return product
 }
+// 0ms
+func positivePow(x float64, n int) float64 {
+	accum := 1.0
+	for {
+		switch(n) {
+			case 0:
+				return accum
+			case 1:
+				return x * accum
+		}
 
+		if n & 1 != 0 {
+			accum *= x
+		}
+
+		x = x * x
+		n = n >> 1
+
+	}
+}
