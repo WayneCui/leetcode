@@ -78,7 +78,7 @@ type Interval [][]int
 func (p Interval) Len() int { return len(p) }
 func (p Interval) Less(i, j int) bool { return p[i][0] < p[j][0] }
 func (p Interval) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
-func findRightInterval(intervals [][]int) []int {
+func findRightInterval2(intervals [][]int) []int {
 	n := len(intervals)
 
 	if n == 1 {
@@ -104,6 +104,47 @@ func findRightInterval(intervals [][]int) []int {
 				j += 1
 			}
 		}
+	}
+
+	return output
+}
+
+func findRightInterval(intervals [][]int) []int {
+	n := len(intervals)
+
+	if n == 1 {
+		return []int{-1}
+	}
+	memo := make(map[int] int)
+	for i, k := range(intervals) {
+		memo[k[0]] = i
+	}
+	sort.Sort(Interval(intervals))
+	
+	output := make([]int, n)
+	for i := 0; i < n; i++ {
+		output[i] = -1
+	}
+
+	i := 0
+	for i < n - 1 {
+		k := intervals[i]
+		low := i + 1
+		high := n - 1
+		for low < high {
+			mid := (low + high) / 2
+			if k[1] > intervals[mid][0] {
+				low = mid + 1
+			} else {
+				high = mid
+			}
+		}
+
+		if k[1] <= intervals[low][0] {
+			output[memo[k[0]]] = memo[intervals[low][0]]
+		}
+
+		i += 1
 	}
 
 	return output
