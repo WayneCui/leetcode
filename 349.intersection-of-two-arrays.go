@@ -9,6 +9,8 @@ func intersection(nums1 []int, nums2 []int) []int {
 	memo := make(map[int]int)
 
 	for i := 0; i < m; i++ {
+		_, ok := memo[nums1[i]]
+		if ok { continue }
 		for j := 0; j < n; j++ {
 			if nums1[i] == nums2[j] {
 				memo[nums1[i]] = 0
