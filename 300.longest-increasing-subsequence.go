@@ -3,7 +3,7 @@
  *
  * [300] Longest Increasing Subsequence
  */
-func lengthOfLIS(nums []int) int {
+func lengthOfLIS2(nums []int) int {
 	n := len(nums)
 	if n == 0 { return 0 }
 	if n == 1 { return 1 }
@@ -36,4 +36,48 @@ func max(a, b int) int {
 	} else {
 		return a
 	}
+}
+
+func lengthOfLIS(nums []int) int {
+	n := len(nums)
+	if n == 0 { return 0 }
+	if n == 1 { return 1 }
+
+	memo := []int{}
+	for i := 0; i < n; i++ {
+		memo = append(memo, 0)
+	}
+
+	size := 0
+	for i := 0; i < n; i++ {
+		idx := binarySearch(memo, 0, size, nums[i])
+		if idx < 0 {
+			idx = -idx - 1
+		}
+
+		memo[idx] = nums[i]
+		
+		if idx == size {
+			size += 1
+		}
+	}
+
+	return size
+}
+
+func binarySearch(nums []int, from, to, target int) int {
+	low := from
+	high := to - 1
+	for low <= high {
+		mid := (low + high) / 2
+		if target > nums[mid] {
+			low = mid + 1
+		} else if target < nums[mid] {
+			high = mid - 1
+		} else {
+			return mid
+		}
+	}
+
+	return -(low + 1)
 }
