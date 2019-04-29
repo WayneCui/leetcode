@@ -45,24 +45,20 @@ func lengthOfLIS(nums []int) int {
 
 	memo := []int{}
 	for i := 0; i < n; i++ {
-		memo = append(memo, 0)
-	}
-
-	size := 0
-	for i := 0; i < n; i++ {
+		size := len(memo)
 		idx := binarySearch(memo, 0, size, nums[i])
 		if idx < 0 {
 			idx = -idx - 1
 		}
 
-		memo[idx] = nums[i]
-		
 		if idx == size {
-			size += 1
+			memo = append(memo, nums[i])
+		} else {
+			memo[idx] = nums[i]
 		}
 	}
 
-	return size
+	return len(memo)
 }
 
 func binarySearch(nums []int, from, to, target int) int {
