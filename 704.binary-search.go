@@ -49,18 +49,16 @@ func search(nums []int, target int) int {
 	low := 0
 	high := n - 1
 	idx := -1
-	for low < high {
+	for low <= high {
 		mid := (low + high) / 2
 		if target > nums[mid] {
 			low = mid + 1
+		} else if target < nums[mid] {
+			high = mid - 1
 		} else {
-			high = mid
+			return mid
 		}
 	}
-
-	if target == nums[low] {
-		idx = low
-	} 
 
 	return idx
 }
