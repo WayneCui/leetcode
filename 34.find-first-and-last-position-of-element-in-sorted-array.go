@@ -31,6 +31,59 @@
  * Output: [-1,-1]
  * 
  */
+func searchRange1(nums []int, target int) []int {
+	n := len(nums)
+	result := []int{-1, -1}
+
+	if n == 0 {
+		return result
+	}
+
+	low := 0
+	high := n - 1
+	
+	for low < high {
+
+		if target == nums[low] {
+			result[0] = low
+		} 
+
+		if target == nums[high] {
+			result[1] = high
+		}
+
+		if result[0] >= 0 && result[1] >= 0 {
+			break
+		}
+
+		mid := (low + high) / 2
+		if target > nums[mid] {
+			low = mid + 1
+		} else if target < nums[mid] {
+			high = mid
+		} else {
+			if result[0] < 0 {
+				low += 1
+			} 
+			
+			if result[1] < 0 {
+				high -= 1
+			}
+		}
+	}
+
+	if target == nums[low] {
+		if result[0] < 0 {
+			result[0] = low
+		}
+
+		if result[1] < 0 {
+			result[1] = low
+		}
+	}
+
+	return result
+}
 
 func searchRange(nums []int, target int) []int {
 	n := len(nums)
