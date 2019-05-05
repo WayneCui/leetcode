@@ -16,18 +16,14 @@ func sortedArrayToBST(nums []int) *TreeNode {
 	if n == 0 {
 		return nil
 	} else if n == 1 {
-		root := TreeNode { Val: nums[0],}
-		return &root
+		return &TreeNode { Val: nums[0],}
 	} else if n == 2 {
-		root := TreeNode {
+		return &TreeNode {
 			Val: nums[0],
+			Right: &TreeNode {
+				Val: nums[1],
+			},
 		}
-
-		right := TreeNode {
-			Val: nums[1],
-		}
-		root.Right = &right
-		return &root
 	}
 
 	mid := n / 2
