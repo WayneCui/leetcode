@@ -11,7 +11,6 @@
  * }
  */
  func reverseList(head *ListNode) *ListNode {
-    fmt.Println(head)
     if head == nil || head.Next == nil {
         return head
     }
