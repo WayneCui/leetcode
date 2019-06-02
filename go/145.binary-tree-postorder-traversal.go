@@ -12,19 +12,16 @@
  * }
  */
 // recursive
-func postorderTraversal0(root *TreeNode) []int {
-	var output []int
-	return postTraversal(root, output)
-}
-
-func postTraversal(root *TreeNode, output []int) []int {
-	if root == nil { return output }
+func postorderTraversal(root *TreeNode) []int {
+	if root == nil { return []int{} }
+	
+	output := []int{}
 	if root.Left != nil {
-		output = postTraversal(root.Left, output)
+		output = append(output, postorderTraversal(root.Left)...)
 	}
 
 	if root.Right != nil {
-		output = postTraversal(root.Right, output)
+		output = append(output, postorderTraversal(root.Right)...)
 	}
 
 	output = append(output, root.Val)
@@ -33,7 +30,7 @@ func postTraversal(root *TreeNode, output []int) []int {
 }
 
 //iterative
-func postorderTraversal(root *TreeNode) []int {
+func postorderTraversal1(root *TreeNode) []int {
 	output := []int {}
 	if root == nil { return output }
 

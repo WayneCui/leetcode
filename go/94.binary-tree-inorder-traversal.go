@@ -11,27 +11,27 @@
  *     Right *TreeNode
  * }
  */
-func inorderTraversal0(root *TreeNode) []int {
-	var output []int
-	return traversal(root, output)
-}
+ func inorderTraversal(root *TreeNode) []int {
+    if root == nil { 
+		return []int{}
+	}
 
-func traversal(root *TreeNode, container []int) []int {
-	if root == nil { return container }
-
+	output := []int{}
 	if root.Left != nil {
-		container = traversal(root.Left, container)
-	}
-	container = append(container, root.Val)
-	if root.Right != nil {
-		container = traversal(root.Right, container)
+		output = append(output, inorderTraversal(root.Left)...)
 	}
 
-	return container
+	output = append(output, root.Val)
+
+	if root.Right != nil {
+		output = append(output, inorderTraversal(root.Right)...)
+	}
+
+	return output
 }
 
 //iteratively
-func inorderTraversal(root *TreeNode) []int {
+func inorderTraversal1(root *TreeNode) []int {
 	var output []int
 	if root == nil {
 		return output

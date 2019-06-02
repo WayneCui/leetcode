@@ -13,27 +13,23 @@
  */
 
 //recursive
-func preorderTraversal0(root *TreeNode) []int {
-	var output []int
-	return pTraversal(root, output)
-}
+func preorderTraversal(root *TreeNode) []int {
+	if root == nil { return []int{} }
 
-func pTraversal(root *TreeNode, output []int) []int {
-	if root == nil { return output }
+	output := []int{}
 	output = append(output, root.Val)
 	if root.Left != nil {
-		output = pTraversal(root.Left, output)
+		output = append(output, preorderTraversal(root.Left)...)
 	}
-
 	if root.Right != nil {
-		output = pTraversal(root.Right, output)
+		output = append(output, preorderTraversal(root.Right)...)
 	}
 
 	return output
 }
 
 //iterative
-func preorderTraversal(root *TreeNode) []int {
+func preorderTraversal1(root *TreeNode) []int {
 	output := []int{}
 	if root == nil {
 		return output
