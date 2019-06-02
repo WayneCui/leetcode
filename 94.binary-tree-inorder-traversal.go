@@ -37,20 +37,20 @@ func inorderTraversal(root *TreeNode) []int {
 		return output
 	}
 	
-	queue := []*TreeNode{ root }
+	stack := []*TreeNode{ root }
 	visited := []*TreeNode{}
-	for len(queue) > 0 {
-		node := peek(queue)
+	for len(stack) > 0 {
+		node := peek(stack)
 
 		if node.Left != nil && !find(visited, node.Left) {
-			queue = push(queue, node.Left)
+			stack = push(stack, node.Left)
 		} else {
 			output = append(output, node.Val)
-			node, queue = pop(queue)
+			node, stack = pop(stack)
 			visited = append(visited, node)
 
 			if node.Right != nil {
-				queue = push(queue, node.Right)
+				stack = push(stack, node.Right)
 			}
 		}
 	}
