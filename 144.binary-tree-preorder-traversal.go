@@ -66,19 +66,3 @@ func push(a []*TreeNode, node *TreeNode) []*TreeNode {
 	return append(a, node)
 }
 
-func peek(a []*TreeNode) *TreeNode {
-	return a[len(a) - 1]
-}
-
-func find(nodes []*TreeNode, target *TreeNode) bool {
-	n := len(nodes)
-	if n <= 0 { return false }
-	for i := n - 1; i >= 0; i-- {
-		if nodes[i] == target {
-			return true
-		}
-	}
-
-	return false
-}
-
