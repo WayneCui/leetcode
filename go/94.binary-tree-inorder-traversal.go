@@ -11,7 +11,7 @@
  *     Right *TreeNode
  * }
  */
- func inorderTraversal(root *TreeNode) []int {
+ func inorderTraversal0(root *TreeNode) []int {
     if root == nil { 
 		return []int{}
 	}
@@ -81,5 +81,36 @@ func find(nodes []*TreeNode, target *TreeNode) bool {
 	}
 
 	return false
+}
+//morris traversal
+func inorderTraversal(root *TreeNode) []int {
+	output := []int{}
+	curr := root
+	var prev *TreeNode
+
+	for curr != nil {
+		if curr.Left != nil {
+			prev = curr.Left
+
+			for prev.Right != nil && prev.Right != curr {
+				prev = prev.Right
+			}
+
+			if prev.Right == nil {
+				prev.Right = curr
+				curr = curr.Left
+			} else { //prev.Right == curr
+				output = append(output, curr.Val)
+
+				prev.Right = nil
+				curr = curr.Right
+			}
+		} else {
+			output = append(output, curr.Val)
+			curr = curr.Right
+		}
+	}
+
+	return output
 }
 

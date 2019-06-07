@@ -52,4 +52,53 @@ func inorderTraversal(root *TreeNode) []*TreeNode {
 	return output
 }
 
+//morris traversal
+func recoverTree(root *TreeNode)  {
+	curr := root
+	var prev *TreeNode
+	var tmp *TreeNode
+
+	var target1, target2 *TreeNode
+	for curr != nil {
+		if curr.Left != nil {
+			tmp = curr.Left
+
+			for tmp.Right != nil && tmp.Right != curr {
+				tmp = tmp.Right
+			}
+
+			if tmp.Right == nil {
+				tmp.Right = curr
+
+				curr = curr.Left
+			} else { 
+				if prev != nil && prev.Val > curr.Val {
+					if target1 == nil {
+						target1 = prev
+					}
+					target2 = curr
+				}
+				tmp.Right = nil
+
+				prev = curr
+				curr = curr.Right
+			}
+		} else {
+			//
+			if prev != nil && prev.Val > curr.Val {
+				if target1 == nil {
+					target1 = prev
+				}
+				target2 = curr
+			}
+
+			prev = curr
+			curr = curr.Right
+		}
+	}
+
+	if target1 != nil && target2 != nil {
+		target1.Val, target2.Val = target2.Val, target1.Val
+	}
+}
 
