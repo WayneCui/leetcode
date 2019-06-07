@@ -53,7 +53,7 @@ func inorderTraversal(root *TreeNode) []*TreeNode {
 }
 
 //morris traversal
-func recoverTree(root *TreeNode)  {
+func recoverTree1(root *TreeNode)  {
 	curr := root
 	var prev *TreeNode
 	var tmp *TreeNode
@@ -100,5 +100,36 @@ func recoverTree(root *TreeNode)  {
 	if target1 != nil && target2 != nil {
 		target1.Val, target2.Val = target2.Val, target1.Val
 	}
+}
+
+//recursive 
+func recoverTree(root *TreeNode)  {
+	var prev, target1, target2 *TreeNode
+
+
+	_, target1, target2 = rec(root, prev, target1, target2)
+
+	if target1 != nil && target2 != nil {
+		target1.Val, target2.Val = target2.Val, target1.Val
+	}
+
+}
+
+func rec(root *TreeNode, prev *TreeNode, 
+	target1 *TreeNode, target2 *TreeNode) (*TreeNode, *TreeNode, *TreeNode) {
+	if root == nil { return prev, target1, target2}
+
+	prev, target1, target2 = rec(root.Left, prev, target1, target2)
+	if prev != nil && prev.Val > root.Val {
+		if target1 == nil {
+			target1 = prev
+		}
+		
+		target2 = root
+	}
+	prev = root
+	prev, target1, target2  = rec(root.Right, prev, target1, target2)
+
+	return prev, target1, target2
 }
 
