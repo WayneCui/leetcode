@@ -13,7 +13,7 @@
  */
 
 //recursive
-func preorderTraversal(root *TreeNode) []int {
+func preorderTraversal0(root *TreeNode) []int {
 	if root == nil { return []int{} }
 
 	output := []int{}
@@ -60,5 +60,31 @@ func pop(a []*TreeNode) (poped *TreeNode, remained []*TreeNode) {
 
 func push(a []*TreeNode, node *TreeNode) []*TreeNode {
 	return append(a, node)
+}
+
+//iterative
+func preorderTraversal(root *TreeNode) []int {
+	output := []int{}
+	if root == nil {
+		return output
+	}
+
+	stack := list.New()
+	stack.PushBack(root)
+	var node *TreeNode
+	for stack.Len() > 0 {
+		node = stack.Remove(stack.Back()).(*TreeNode)
+		if node.Right != nil {
+			stack.PushBack(node.Right)
+		}
+		
+		if node.Left != nil {
+			stack.PushBack(node.Left)
+		}
+
+		output = append(output, node.Val)
+	} 
+
+	return output
 }
 
