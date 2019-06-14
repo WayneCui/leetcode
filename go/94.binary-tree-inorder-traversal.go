@@ -44,6 +44,7 @@ func inorderTraversal1(root *TreeNode) []int {
 
 		if node.Left != nil && !find(visited, node.Left) {
 			stack = push(stack, node.Left)
+			node.Left = nil
 		} else {
 			output = append(output, node.Val)
 			node, stack = pop(stack)
@@ -83,7 +84,7 @@ func find(nodes []*TreeNode, target *TreeNode) bool {
 	return false
 }
 //morris traversal
-func inorderTraversal(root *TreeNode) []int {
+func inorderTraversal2(root *TreeNode) []int {
 	output := []int{}
 	curr := root
 	var prev *TreeNode
@@ -108,6 +109,33 @@ func inorderTraversal(root *TreeNode) []int {
 		} else {
 			output = append(output, curr.Val)
 			curr = curr.Right
+		}
+	}
+
+	return output
+}
+
+//another iteratively way, will destory the original tree
+func inorderTraversal(root *TreeNode) []int {
+	var output []int
+	if root == nil {
+		return output
+	}
+	
+	stack := []*TreeNode{ root }
+	for len(stack) > 0 {
+		node := peek(stack)
+
+		if node.Left != nil {
+			stack = push(stack, node.Left)
+			node.Left = nil
+		} else {
+			output = append(output, node.Val)
+			node, stack = pop(stack)
+
+			if node.Right != nil {
+				stack = push(stack, node.Right)
+			}
 		}
 	}
 
