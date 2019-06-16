@@ -116,7 +116,7 @@ func inorderTraversal2(root *TreeNode) []int {
 }
 
 //another iteratively way, will destory the original tree
-func inorderTraversal(root *TreeNode) []int {
+func inorderTraversal3(root *TreeNode) []int {
 	var output []int
 	if root == nil {
 		return output
@@ -135,6 +135,34 @@ func inorderTraversal(root *TreeNode) []int {
 
 			if node.Right != nil {
 				stack = push(stack, node.Right)
+			}
+		}
+	}
+
+	return output
+}
+
+//again, another iteratively way, will destory the original tree
+func inorderTraversal(root *TreeNode) []int {
+	var output []int
+	if root == nil {
+		return output
+	}
+	
+	stack := list.New()
+	stack.PushBack(root)
+	for stack.Len() > 0 {
+		node := stack.Back().Value.(*TreeNode)
+
+		if node.Left != nil {
+			stack.PushBack(node.Left)
+			node.Left = nil
+		} else {
+			output = append(output, node.Val)
+			node = stack.Remove(stack.Back()).(*TreeNode)
+
+			if node.Right != nil {
+				stack.PushBack(node.Right)
 			}
 		}
 	}
