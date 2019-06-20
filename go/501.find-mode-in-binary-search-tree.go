@@ -44,7 +44,7 @@ func collect(root *TreeNode, memo map[int]int) {
 	collect(root.Right, memo)
 }
 
-func findMode(root *TreeNode) []int {
+func findMode1(root *TreeNode) []int {
 	memo := []int{}
 	if root == nil {
 		return memo
@@ -99,5 +99,46 @@ func findMode(root *TreeNode) []int {
 	} 
 
 	return memo[1:]
+}
+
+func findMode(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+	prevVal := math.MinInt64
+	count := 0
+	memo := []int{count, prevVal}
+	_, _, memo = inorder(root, prevVal, count, memo)
+	return memo[1:]
+}
+
+func inorder(root *TreeNode, prevVal int, count int, memo []int) (int, int, []int) {
+	if root == nil {
+		return prevVal, count, memo
+	}
+
+	prevVal, count, memo = inorder(root.Left, prevVal, count, memo)
+
+	if prevVal != math.MinInt64 {
+		if prevVal == root.Val {
+			count += 1
+		} else {
+			count = 1
+		}
+	} else {
+		count = 1
+	}
+
+	if count > memo[0] {
+		memo = memo[0:0]
+		memo = []int{count, root.Val}
+	} else if count == memo[0] {
+		memo = append(memo, root.Val)
+	}
+
+	prevVal = root.Val
+
+	prevVal, count, memo = inorder(root.Right, prevVal, count, memo)
+	return prevVal, count, memo
 }
 
