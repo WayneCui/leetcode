@@ -18,7 +18,7 @@ func combinationSum4_0(nums []int, target int) int {
 	return count
 }
 
-func combinationSum4(nums []int, target int) int {
+func combinationSum4_1(nums []int, target int) int {
 	memo := make(map[int]int)
 	return doCombination(nums, target, memo)
 }
@@ -39,4 +39,28 @@ func doCombination(nums []int, target int, memo map[int]int) int {
 
 	memo[target] = count
 	return count
+}
+
+
+func combinationSum4(nums []int, target int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+
+	sort.Ints(nums)
+	
+	dp := make([]int, target + 1)
+	first := nums[0]
+	dp[0] = 1
+	for i := first; i <= target; i++ {
+		count := 0
+		for _, v := range(nums) {
+			if i - v >= 0 {
+				count += dp[i - v]
+			}
+		}
+		dp[i] = count
+	}
+
+	return dp[target]
 }
