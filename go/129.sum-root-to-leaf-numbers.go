@@ -57,3 +57,34 @@ func combine(p []int) int {
 	return 0
 }
 
+
+//a more memory efficient way
+ func sumNumbers(root *TreeNode) int {
+    if root == nil { return 0 }
+	sum := []int{0}
+	init := []int{}
+	traversal(root, init, &sum)
+
+	return sum[0]
+}
+
+func traversal(root *TreeNode, path []int, sum *[]int) {
+	if root.Left == nil && root.Right == nil {
+		p := make([]int, len(path))
+		copy(p, path)
+		p = append(p, root.Val)
+        (*sum)[0] += combine(p)
+		return 
+	}
+
+	path = append(path, root.Val)
+	if(root.Left != nil) {
+		traversal(root.Left, path, sum)
+	}
+
+	if(root.Right != nil) {
+		traversal(root.Right, path, sum)
+	}
+}
+
+
