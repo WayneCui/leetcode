@@ -38,3 +38,15 @@ func isLeaf(node *TreeNode) bool {
 	return node != nil && node.Left == nil && node.Right == nil
 }
 
+// a more concise way
+func pruneTree(root *TreeNode) *TreeNode {
+	if root == nil { return nil }
+
+	root.Left = pruneTree(root.Left)
+	root.Right = pruneTree(root.Right)
+	if isLeaf(root) && root.Val == 0 { 
+		return nil 
+	} else {
+		return root
+	}
+}
