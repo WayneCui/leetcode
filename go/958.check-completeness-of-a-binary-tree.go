@@ -12,7 +12,6 @@
  * }
  */
 func isCompleteTree(root *TreeNode) bool {
-    if root == nil  { return true }
     layer := []*TreeNode { root }
 
     end := false
