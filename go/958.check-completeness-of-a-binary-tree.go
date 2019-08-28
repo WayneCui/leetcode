@@ -35,3 +35,27 @@ func isCompleteTree(root *TreeNode) bool {
     return true
 }
 
+// a more clear way
+func isCompleteTree(root *TreeNode) bool {
+    layer := []*TreeNode { root }
+    prev := &TreeNode {}
+    isComplete := true
+    for len(layer) > 0 {
+        nextLayer := []*TreeNode {}
+        for _, node := range(layer){
+            isComplete = isComplete && !(prev == nil && node != nil)
+
+            if node != nil {
+                nextLayer = append(nextLayer, node.Left)
+                nextLayer = append(nextLayer, node.Right)
+            }
+            
+            prev = node
+        }
+        
+        layer = nextLayer
+    }
+    
+    return isComplete
+}
+
