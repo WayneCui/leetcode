@@ -29,7 +29,7 @@
  * 
  * 
  */
-func twoSum(nums []int, target int) []int {
+func twoSum0(nums []int, target int) []int {
 	var length = len(nums)
 	dict := make(map[int] int)
 
@@ -44,6 +44,19 @@ func twoSum(nums []int, target int) []int {
 
 		if ok && i != idx {
 			return []int{i, dict[second]}
+		}
+	}
+
+	return []int{-1, -1}
+}
+// a more succinct version
+func twoSum(nums []int, target int) []int {
+	dict := make(map[int]int)
+	for i := 0; i < len(nums); i++ {
+		if idx, ok := dict[target - nums[i]]; ok {
+			return []int{idx, i}
+		} else {
+			dict[nums[i]] = i
 		}
 	}
 
