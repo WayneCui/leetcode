@@ -112,16 +112,15 @@ func mctFromLeafValues(arr []int) int {
 		}
 	}
 
-	for i := 2; i < n; i++ { // step
-		for j := 0; j < n; j++ { // row
-			if j + i < n {
-				sum := math.MaxInt32
-				for k := j; k < i + j; k++ { //split
-					sum = min(sum, dp[j][k][1] * dp[k+1][i+j][1] + dp[j][k][0] + dp[k+1][i+j][0])
-				}
-                mx := max(arr[j:j + i + 1]...)
-				dp[j][j + i] = []int{sum, mx}
+	for step := 2; step < n; step++ { // step
+		for r := 0; r < n && r + step < n; r++ { // row
+			cost := math.MaxInt32
+			for k := r; k < r + step; k++ { //split
+				cost = min(cost, dp[r][k][1] * dp[k+1][r + step][1] + dp[r][k][0] + dp[k+1][r + step][0])
 			}
+
+			mx := max(arr[r : r + step + 1]...)
+			dp[r][r + step] = []int{cost, mx}
 		}
 	}
 
