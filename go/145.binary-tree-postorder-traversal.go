@@ -12,7 +12,7 @@
  * }
  */
 // recursive
-func postorderTraversal(root *TreeNode) []int {
+func postorderTraversal0(root *TreeNode) []int {
 	if root == nil { return []int{} }
 	
 	output := []int{}
@@ -74,3 +74,31 @@ func peek(a []*TreeNode) *TreeNode {
 	return a[len(a) - 1]
 }
 
+//iterative
+func postorderTraversal2(root *TreeNode) []int {
+	output := []int {}
+	if root == nil { return output }
+
+	stack := list.New()
+	stack.PushBack(root)
+    for stack.Len() > 0 {
+		node := stack.Back().Value.(*TreeNode)
+
+		if isLeaf(node) {
+			output = append(output, node.Val)
+			stack.Remove(stack.Back())
+		} else {
+			if node.Right != nil {
+				stack.PushBack(node.Right)
+				node.Right = nil
+			}
+	
+			if node.Left != nil {
+				stack.PushBack(node.Left)
+				node.Left = nil
+			}
+		}
+	}
+
+	return output
+}
