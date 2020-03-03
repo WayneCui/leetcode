@@ -50,6 +50,48 @@ class Solution {
 
         return result;
     }
+
+    public List<List<Integer>> threeSum2(int[] nums) {
+        int len = nums.length;
+        List<List<Integer>> result = new ArrayList<>();
+
+        if(len < 3) { return result; }
+
+        Arrays.sort(nums);
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int k = 0; k < len; k++) {
+            map.put(nums[k], k);
+        }
+
+        for(int i = 0; i < len - 2; i++) {
+            if(i > 0 && nums[i] == nums[i - 1]) { continue; }
+            int target = 0 - nums[i];
+            int low = i + 1, high = len - 1;
+            while(low < high) {
+                if(nums[low] + nums[high] > target) {
+                    do {
+                        high--;
+                    } while (high < len - 1 && high > i + 1 && nums[high] == nums[high + 1]);
+                } else if(nums[low] + nums[high] < target) {
+                    do {
+                        low++;
+                    } while (low > i + 1 && low < len - 1 && nums[low] == nums[low - 1]);
+                } else {
+                    result.add(Arrays.asList(nums[i], nums[low], nums[high]));
+
+                    do {
+                        high--;
+                    } while (high < len - 1 && high > i + 1 && nums[high] == nums[high + 1]);
+
+                    do {
+                        low++;
+                    } while (low > i + 1 && low < len - 1 && nums[low] == nums[low - 1]);
+                }
+            }
+        }
+
+        return result;
+    }
 }
 // @lc code=end
 
