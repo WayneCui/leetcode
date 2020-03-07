@@ -41,6 +41,41 @@ class Solution {
         Arrays.fill(chars, '0');
         return new String(chars);
     }
+
+    public String multiply2(String num1, String num2) {
+        if("0".equals(num1) || "0".equals(num2)) {
+            return "0";
+        }
+
+        int len1 = num1.length();
+        int len2 = num2.length();
+        int lenP = len1 + len2;
+        char[] chars = new char[lenP];
+        char[] chars1 = num1.toCharArray();
+        char[] chars2 = num2.toCharArray();
+
+        for(int i = len1 - 1; i >= 0; i--) {
+            int c = chars1[i] - '0';
+            for(int j = len2 - 1; j >= 0; j--) {
+                chars[i + j + 1] += c * (chars2[j] - '0');
+            }
+        }
+
+        for(int k = lenP - 1; k >= 0; k--) {
+            if(chars[k] > 9) {
+                chars[k - 1] += chars[k] / 10;
+                chars[k] %= 10;
+            }
+
+            chars[k] += '0';
+        }
+
+        if(chars[0] == '0') {
+            return new String(Arrays.copyOfRange(chars, 1, lenP));
+        } else {
+            return new String(chars);
+        }
+    }
 }
 // @lc code=end
 
